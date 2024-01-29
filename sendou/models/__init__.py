@@ -4,3 +4,4 @@ Based off of https://github.com/Sendouc/sendou.ink/blob/rewrite/app/features/api
 """
 from .tournament import *
 from .user import User
+ 

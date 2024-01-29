@@ -1,3 +1,4 @@
 from .tournament import Tournament
-from .team import TournamentTeam
-from .match import Match
+from .tournament import Team as TournamentTeam
+from .team import TournamentTeam, TeamMember
+from .match import Match, MatchTeam, MapListSourceEnum, MapListMap

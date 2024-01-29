@@ -10,8 +10,7 @@ homepage = "https://github.com/IPLSplatoon/sendou.py/"
 repository = "https://github.com/IPLSplatoon/sendou.py/"
 keywords = ["splatoon", "sendou.ink"]
 classifiers = [
-    "Topic :: Software Development :: Libraries",
-    "Development Status :: 3"
+    "Topic :: Software Development :: Libraries"
 ]
 
 [tool.poetry.dependencies]

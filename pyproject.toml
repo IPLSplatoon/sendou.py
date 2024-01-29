@@ -6,10 +6,13 @@ authors = ["Vincent Lee <vlee@vlee.me.uk>"]
 license = "MIT"
 readme = "README.md"
 packages = [{include = "sendou"}]
-
-[project.urls]
 homepage = "https://github.com/IPLSplatoon/sendou.py/"
 repository = "https://github.com/IPLSplatoon/sendou.py/"
+keywords = ["splatoon", "sendou.ink"]
+classifiers = [
+    "Topic :: Software Development :: Libraries",
+    "Development Status :: 3"
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"

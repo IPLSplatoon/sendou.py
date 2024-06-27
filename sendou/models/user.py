@@ -1,10 +1,13 @@
 """
 User Schema
 """
+from .baseModel import BaseModel
+
 from typing import List, Optional
 
 from .plusServer import PlusTiers
 from .badge import Badge
+from sendou.requests import RequestsClient
 
 
 class UserSocials:
@@ -22,12 +25,12 @@ class UserWeapon:
     is_five_star: bool
 
     def __init__(self, data: dict):
-        self.id = data.get("id")
-        self.name = data.get("name")
-        self.is_five_star = data.get("isFiveStar")
+        self.id = str(data.get("id"))
+        self.name = str(data.get("name"))
+        self.is_five_star = bool(data.get("isFiveStar"))
 
 
-class User:
+class User(BaseModel):
     """
     GET /api/user/{userId|discordId}
     """
@@ -43,11 +46,12 @@ class User:
     weapon_pool: List[UserWeapon]
     badges: List[Badge]
 
-    def __init__(self, data: dict):
-        self.id = data.get("id")
-        self.name = data.get("name")
-        self.discord_id = data.get("discordId")
-        self.url = data.get("url")
+    def __init__(self, data: dict, request_client: RequestsClient):
+        super().__init__(data, request_client)
+        self.id = data.get("id", 0)
+        self.name = str(data.get("name"))
+        self.discord_id = str(data.get("discordId"))
+        self.url = str(data.get("url"))
         self.avatar_url = data.get("avatarUrl", None)
         self.country = data.get("country", None)
         socials = data.get("socials", {})
@@ -59,5 +63,15 @@ class User:
         self.peak_xp = data.get("peakXp", None)
         self.weapon_pool = [UserWeapon(weapon) for weapon in data.get("weaponPool", [])]
         self.badges = [Badge(badge) for badge in data.get("badges", [])]
+
+    @staticmethod
+    def api_route(**kwargs) -> str:
+        """
+        :param kwargs:
+        :Keyword Arguments:
+            user_id: str
+        :return:
+        """
+        return f"api/user/{kwargs.get('user_id')}"
 
 

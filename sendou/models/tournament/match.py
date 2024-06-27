@@ -1,6 +1,9 @@
 """
 Tournament Match Model
 """
+from sendou.models.baseModel import BaseModel
+from sendou.requests import RequestsClient
+
 from typing import Optional, List, Union
 from enum import Enum
 
@@ -25,7 +28,7 @@ class MapListMap:
     participated_user_ids: List[int]
 
     def __init__(self, data: dict):
-        self.map = StageWithMode(data.get("map"))
+        self.map = StageWithMode(data.get("map", {}))
         source = data.get("source")
         if isinstance(source, int):
             self.source = source
@@ -40,11 +43,11 @@ class MatchTeam:
     score: int
 
     def __init__(self, data: dict):
-        self.id = data.get("id")
-        self.score = data.get("score")
+        self.id = data.get("id", 0)
+        self.score = data.get("score", 0)
 
 
-class Match:
+class Match(BaseModel):
     """
     GET /api/tournament/{tournamentId}
     """
@@ -53,8 +56,19 @@ class Match:
     map_list: List[MapListMap]
     url: str
 
-    def __init__(self, data: dict):
+    def __init__(self, data: dict, request_client: RequestsClient):
+        super().__init__(data, request_client)
         self.team_one = MatchTeam(data.get("teamOne", {}))
         self.team_two = MatchTeam(data.get("teamTwo", {}))
         self.map_list = [MapListMap(m) for m in data.get("mapList", [])]
-        self.url = data.get("url")
+        self.url = data.get("url", "")
+
+    @staticmethod
+    def api_route(**kwargs) -> str:
+        """
+        :param kwargs:
+        :Keyword Arguments:
+            match_id: str
+        :return:
+        """
+        return f"api/tournament-match/{kwargs.get('match_id')}"

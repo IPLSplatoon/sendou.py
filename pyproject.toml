@@ -16,9 +16,9 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-aiohttp = "^3.9.2"
 asyncio = "^3.4.3"
 python-dateutil = "^2.8.2"
+aiohttp-client-cache = "^0.11.0"
 
 
 [build-system]

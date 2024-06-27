@@ -16,8 +16,9 @@ An async Python client for Sendou.ink
 ## Supported Endpoints
 - [x] Get user
 - [x] Get Tournament Info
-- [x] Get Tournament Teams
-- [x] Get Tournament Match Info
+  - [x] Get Tournament Teams
+  - [X] Get Tournament Brackets
+    - [x] Get Tournament Match Info (*by ID not linked to bracket*)
 
 ## Usage
 ```python

@@ -201,3 +201,4 @@ atlassian-ide-plugin.xml
 .idea/httpRequests
 
 .idea/dataSources.xml
+test.py

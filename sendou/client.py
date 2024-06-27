@@ -47,13 +47,13 @@ class Client:
         data = await self.__client.get_response(path)
         return Tournament(tournament_id, data, self.__client)
 
-    async def get_tournament_matches(self, tournament_id: str) -> Optional[List[Match]]:
+    async def get_tournament_matches(self, match_id: str) -> Optional[Match]:
         """
         Get a list of tournament matches
-        :param tournament_id:
+        :param match_id:
         :return: List of Matches
         """
-        path = Match.api_route(tournament_id=tournament_id)
+        path = Match.api_route(match_id=match_id)
         data = await self.__client.get_response(path)
-        return [Match(match, self.__client) for match in data]
+        return Match(data, self.__client)
 

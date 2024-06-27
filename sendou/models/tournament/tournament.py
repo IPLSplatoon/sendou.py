@@ -8,7 +8,7 @@ from .bracket import Bracket
 
 from datetime import datetime
 from dateutil import parser
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from enum import Enum
 
 
@@ -58,7 +58,7 @@ class Tournament(BaseModel):
     id: str
     name: str
     url: str
-    logo_url: str
+    logo_url: Optional[str]
     start_time: datetime
     teams: TournamentTeamInfo
     brackets: List[TournamentBracket]
@@ -68,7 +68,7 @@ class Tournament(BaseModel):
         super().__init__(data, request_client)
         self.name = data.get("name", "")
         self.url = data.get("url", "")
-        self.logo_url = data.get("logoUrl", "")
+        self.logo_url = data.get("logoUrl", None)
         self.start_time = parser.isoparse(data.get("startTime", ""))
         self.teams = TournamentTeamInfo(data.get("teams", {}))
         self.brackets = [TournamentBracket(bracket, index, self.id, request_client) for index, bracket in

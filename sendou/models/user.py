@@ -41,7 +41,7 @@ class User(BaseModel):
     avatar_url: Optional[str]
     country: Optional[str]
     socials: UserSocials
-    plus_server_tier: PlusTiers
+    plus_server_tier: Optional[PlusTiers]
     peak_xp: Optional[float]
     weapon_pool: List[UserWeapon]
     badges: List[Badge]
@@ -54,9 +54,8 @@ class User(BaseModel):
         self.url = str(data.get("url"))
         self.avatar_url = data.get("avatarUrl", None)
         self.country = data.get("country", None)
-        socials = data.get("socials", {})
-        if socials:
-            self.socials = UserSocials(socials)
+        self.socials = UserSocials(data.get("socials", {}))
+        self.plus_server_tier = None
         plus_server_tier = data.get("plusServerTier")
         if plus_server_tier:
             self.plus_server_tier = PlusTiers(plus_server_tier)

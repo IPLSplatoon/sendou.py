@@ -16,6 +16,7 @@ class TeamMember(BaseModel):
     user_id: int
     name: str
     discord_id: str
+    battlefy: Optional[str]
     avatar_url: Optional[str]
     captain: bool
     joined_at: datetime
@@ -25,7 +26,8 @@ class TeamMember(BaseModel):
         self.user_id = data.get("userId", 0)
         self.name = data.get("name", "")
         self.discord_id = data.get("discordId", "")
-        self.avatar_url = data.get("avatarUrl", "")
+        self.battlefy = data.get("battlefy", None)
+        self.avatar_url = data.get("avatarUrl", None)
         self.captain = data.get("captain", False)
         self.joined_at = parser.isoparse(data.get("joinedAt", ""))
 
@@ -44,6 +46,8 @@ class TournamentTeam(BaseModel):
     registered_at: datetime
     checked_in: bool
     url: str
+    team_page_url: Optional[str]
+    logo_url: Optional[str]
     seed: Optional[int]
     map_pool: Optional[List[StageWithMode]]
     members: List[TeamMember]
@@ -55,6 +59,8 @@ class TournamentTeam(BaseModel):
         self.registered_at = parser.isoparse(data.get("registeredAt", ""))
         self.checked_in = data.get("checkedIn", False)
         self.url = data.get("url", "")
+        self.team_page_url = data.get("teamPageUrl", None)
+        self.logo_url = data.get("logoUrl", None)
         self.seed = data.get("seed")
         map_pool = data.get("mapPool", [])
         if map_pool:

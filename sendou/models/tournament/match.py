@@ -11,12 +11,22 @@ from ..stageMapList import StageWithMode
 
 
 class MapListSourceEnum(Enum):
+    """
+    Where Map was sourced from
+
+    "DEFAULT" if it was a default map, something went wrong with the algorithm typically
+    "TIEBREAKER" if it was a tiebreaker map (selected by the TO)
+    "BOTH" both teams picked the map
+    """
     DEFAULT = "DEFAULT"
     TIEBREAKER = "TIEBREAKER"
     BOTH = "BOTH"
 
 
 class MapListMap:
+    """
+    Map in a Map List
+    """
     map: StageWithMode
     # One of the following:
     # id of the team that picked the map
@@ -39,6 +49,13 @@ class MapListMap:
 
 
 class MatchTeam:
+    """
+    Team in a Match
+
+    Attributes:
+        id (int): Team ID
+        score (int): Team Score
+    """
     id: int
     score: int
 
@@ -49,7 +66,13 @@ class MatchTeam:
 
 class Match(BaseModel):
     """
-    GET /api/tournament/{tournamentId}
+    A Tournament Match
+
+    Attributes:
+        team_one (Optional[MatchTeam]): Team One
+        team_two (Optional[MatchTeam]): Team Two
+        map_list (List[MapListMap]): Map List
+        url (str): Match URL
     """
     team_one: Optional[MatchTeam]
     team_two: Optional[MatchTeam]
@@ -66,9 +89,10 @@ class Match(BaseModel):
     @staticmethod
     def api_route(**kwargs) -> str:
         """
+        Get the API route
         :param kwargs:
         :Keyword Arguments:
-            match_id: str
+            match_id: match ID
         :return:
         """
         return f"api/tournament-match/{kwargs.get('match_id')}"

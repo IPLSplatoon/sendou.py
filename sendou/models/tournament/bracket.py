@@ -4,13 +4,18 @@ Tournament Bracket Model
 from sendou.models.baseModel import BaseModel
 from sendou.requests import RequestsClient
 
-from datetime import datetime
-from dateutil import parser
-from typing import Any, Dict, List, Optional
-from enum import Enum
+from typing import Any, Optional
 
 
 class BracketMeta:
+    """
+    Bracket Metadata
+
+    Attributes:
+        teams_per_group (Optional[int]): Teams per Group
+        group_count (Optional[int]): Group Count
+        round_count (Optional[int]): Round Count
+    """
     teams_per_group: Optional[int]
     group_count: Optional[int]
     round_count: Optional[int]
@@ -22,6 +27,13 @@ class BracketMeta:
 
 
 class Bracket(BaseModel):
+    """
+    Sendou.ink Tournament Bracket Info
+
+    Attributes:
+        data (Any): Bracket Data
+        meta (BracketMeta): Bracket Metadata
+    """
     data: Any  # https://github.com/Sendouc/sendou.ink/blob/rewrite/app/features/api-public/schema.ts#L232
     meta: BracketMeta
 

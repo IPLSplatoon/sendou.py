@@ -13,6 +13,13 @@ from enum import Enum
 
 
 class TournamentTeamInfo:
+    """
+    Basic Info about the Tournament Teams Count & Checked In Count
+
+    Attributes:
+        registered_count (int): Registered Count
+        checked_in_count (int): Checked In Count
+    """
     registered_count: int
     checked_in_count: int
 
@@ -22,6 +29,15 @@ class TournamentTeamInfo:
 
 
 class BracketType(Enum):
+    """
+    Bracket Types
+
+    Values:
+        SINGLE_ELIMINATION: Single Elimination Bracket
+        DOUBLE_ELIMINATION: Double Elimination Bracket
+        ROUND_ROBIN: Round Robin Bracket
+        SWISS: Swiss Bracket
+    """
     SINGLE_ELIMINATION = "single_elimination"
     DOUBLE_ELIMINATION = "double_elimination"
     ROUND_ROBIN = "round_robin"
@@ -29,12 +45,28 @@ class BracketType(Enum):
 
 
 class TournamentBracket(BaseModel):
+    """
+    Sendou.ink Tournament Route Bracket Info
+
+    Attributes:
+        type (BracketType): Bracket Type
+        name (str): Bracket Name
+        _index (int): Bracket Index
+        __tournament_id (str): Tournament ID
+    """
     type: BracketType
     name: str
     _index: int
     __tournament_id: str
 
     def __init__(self, data: dict, index: int, tournament_id: str, request_client: RequestsClient):
+        """
+        Init
+        :param data: Raw data from API
+        :param index: Bracket Index from API
+        :param tournament_id: Tournament ID bracket is associated with
+        :param request_client: Request Client
+        """
         super().__init__(data, request_client)
         self.type = BracketType(data.get("type", ""))
         self.name = data.get("name", "")
@@ -43,8 +75,10 @@ class TournamentBracket(BaseModel):
 
     async def get_bracket_data(self) -> Bracket:
         """
-        Get the bracket data
-        :return:
+        Get the detailed bracket data
+
+        Returns:
+            (Bracket): Bracket Data
         """
         path = Bracket.api_route(tournament_id=self.__tournament_id, bracket_index=self._index)
         data = await self._request_client.get_response(path)
@@ -53,7 +87,16 @@ class TournamentBracket(BaseModel):
 
 class Tournament(BaseModel):
     """
-    GET /api/tournament/{tournamentId}
+    Sendou.ink Tournament
+
+    Attributes:
+        id (str): Tournament ID
+        name (str): Tournament Name
+        url (str): Tournament URL
+        logo_url (Optional[str]): Logo URL
+        start_time (datetime): Start Time
+        teams (TournamentTeamInfo): Tournament Team Info
+        brackets (List[TournamentBracket]): Tournament Brackets
     """
     id: str
     name: str
@@ -64,6 +107,14 @@ class Tournament(BaseModel):
     brackets: List[TournamentBracket]
 
     def __init__(self, id: str, data: dict, request_client: RequestsClient):
+        """
+        Init
+
+        Args:
+            id: Tournament ID
+            data: Raw data from API
+            request_client: Request Client
+        """
         self.id = id
         super().__init__(data, request_client)
         self.name = data.get("name", "")
@@ -77,7 +128,9 @@ class Tournament(BaseModel):
     async def get_teams(self) -> List[TournamentTeam]:
         """
         Get the teams for the tournament
-        :return:
+
+        Returns:
+            (List[TournamentTeam]): List of Tournament Teams
         """
         path = TournamentTeam.api_route(tournament_id=self.id)
         data = await self._request_client.get_response(path)
@@ -86,9 +139,10 @@ class Tournament(BaseModel):
     @staticmethod
     def api_route(**kwargs) -> str:
         """
+        Returns API route for the model
         :param kwargs:
         :Keyword Arguments:
-            tournament_id: str
+            tournament_id: Sendou.ink Tournament ID
         :return:
         """
         return f"api/tournament/{kwargs.get('tournament_id')}"

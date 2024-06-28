@@ -13,6 +13,18 @@ from ..user import User
 
 
 class TeamMember(BaseModel):
+    """
+    Member of a Tournament Team
+
+    Attributes:
+        user_id (int): User ID
+        name (str): Member's Name
+        discord_id (str): Discord ID
+        battlefy (Optional[str]): Battlefy ID
+        avatar_url (Optional[str]): Avatar URL
+        captain (bool): Is Captain
+        joined_at (datetime): Joined At
+    """
     user_id: int
     name: str
     discord_id: str
@@ -32,6 +44,12 @@ class TeamMember(BaseModel):
         self.joined_at = parser.isoparse(data.get("joinedAt", ""))
 
     async def get_user(self) -> User:
+        """
+        Get the User object for the member
+
+        Returns:
+            (User): User Object
+        """
         path = User.api_route(user_id=self.user_id)
         data = await self._request_client.get_response(path)
         return User(data, self._request_client)
@@ -39,7 +57,19 @@ class TeamMember(BaseModel):
 
 class TournamentTeam(BaseModel):
     """
-    GET /api/tournament/{tournamentId}/teams
+    A Tournament Team
+
+    Attributes:
+        id (int): Team ID
+        name (str): Team Name
+        registered_at (datetime): Registered At
+        checked_in (bool): Checked In
+        url (str): Team URL
+        team_page_url (Optional[str]): Team Page URL
+        logo_url (Optional[str]): Logo URL
+        seed (Optional[int]): Seed
+        map_pool (Optional[List[StageWithMode]]): Map Pool
+        members (List[TeamMember]): Team Members
     """
     id: int
     name: str
@@ -53,6 +83,11 @@ class TournamentTeam(BaseModel):
     members: List[TeamMember]
 
     def __init__(self, data: dict, request_client: RequestsClient):
+        """
+        Init
+        :param data: Raw data from API
+        :param request_client: Request Client
+        """
         super().__init__(data, request_client)
         self.id = data.get("id", 0)
         self.name = data.get("name", "")
@@ -70,9 +105,10 @@ class TournamentTeam(BaseModel):
     @staticmethod
     def api_route(**kwargs) -> str:
         """
+        Get the API route
         :param kwargs:
         :Keyword Arguments:
-            tournament_id: str
+            tournament_id: Tournament ID
         :return:
         """
         return f"api/tournament/{kwargs.get('tournament_id')}/teams"

@@ -52,14 +52,14 @@ class TournamentBracket(BaseModel):
         type (BracketType): Bracket Type
         name (str): Bracket Name
         _index (int): Bracket Index
-        __tournament_id (str): Tournament ID
+        __tournament_id (int): Tournament ID
     """
     type: BracketType
     name: str
     _index: int
-    __tournament_id: str
+    __tournament_id: int
 
-    def __init__(self, data: dict, index: int, tournament_id: str, request_client: RequestsClient):
+    def __init__(self, data: dict, index: int, tournament_id: int, request_client: RequestsClient):
         """
         Init
         :param data: Raw data from API
@@ -98,7 +98,7 @@ class Tournament(BaseModel):
         teams (TournamentTeamInfo): Tournament Team Info
         brackets (List[TournamentBracket]): Tournament Brackets
     """
-    id: str
+    id: int
     name: str
     url: str
     logo_url: Optional[str]
@@ -106,7 +106,7 @@ class Tournament(BaseModel):
     teams: TournamentTeamInfo
     brackets: List[TournamentBracket]
 
-    def __init__(self, id: str, data: dict, request_client: RequestsClient):
+    def __init__(self, id: int, data: dict, request_client: RequestsClient):
         """
         Init
 

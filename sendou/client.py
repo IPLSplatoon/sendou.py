@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Union
 from datetime import datetime, timedelta
 from aiohttp_client_cache import CacheBackend
-from sendou.models import User, Tournament, Match
+from sendou.models import User, Tournament, Match, CalendarEntry
 from sendou.requests import RequestsClient
 
 
@@ -76,6 +76,21 @@ class Client:
         data = await self.__client.get_response(path)
         return User(data, self.__client)
 
+    async def get_calendar(self, year: str, month: str) -> List[CalendarEntry]:
+        """
+        Get Sendou.ink calendar
+
+        Attributes:
+            year: Year
+            month: Month
+
+        Returns:
+            (List[CalendarEntry]): Calendar Entries
+        """
+        path = CalendarEntry.api_route(year=year, month=month)
+        data = await self.__client.get_response(path)
+        return [CalendarEntry(entry, self.__client) for entry in data]
+
     async def get_tournament(self, tournament_id: str) -> Optional[Tournament]:
         """
         Get Sendou.ink tournament
@@ -88,7 +103,7 @@ class Client:
         """
         path = Tournament.api_route(tournament_id=tournament_id)
         data = await self.__client.get_response(path)
-        return Tournament(tournament_id, data, self.__client)
+        return Tournament(int(tournament_id), data, self.__client)
 
     async def get_tournament_matches(self, match_id: str) -> Optional[Match]:
         """

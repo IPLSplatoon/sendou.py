@@ -19,8 +19,10 @@ class BaseModel:
     def __init__(self, data: Union[Dict[str, Any], List[Any]], request_client: RequestsClient):
         """
         Init
-        :param data: Raw data from API
-        :param request_client: Request Client
+
+        Args:
+            data: Raw data from API
+            request_client: Request Client
         """
         self._raw = data
         self._request_client = request_client

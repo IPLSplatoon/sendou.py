@@ -140,9 +140,11 @@ class Tournament(BaseModel):
     def api_route(**kwargs) -> str:
         """
         Returns API route for the model
-        :param kwargs:
-        :Keyword Arguments:
-            tournament_id: Sendou.ink Tournament ID
-        :return:
+
+        Args:
+            tournament_id (str): Tournament ID
+
+        Returns:
+            str: API Route
         """
         return f"api/tournament/{kwargs.get('tournament_id')}"

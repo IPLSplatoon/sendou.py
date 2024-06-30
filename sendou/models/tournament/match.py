@@ -90,9 +90,11 @@ class Match(BaseModel):
     def api_route(**kwargs) -> str:
         """
         Get the API route
-        :param kwargs:
-        :Keyword Arguments:
-            match_id: match ID
-        :return:
+
+        Args:
+            match_id (int): Match ID
+
+        Returns:
+            str: API Route
         """
         return f"api/tournament-match/{kwargs.get('match_id')}"

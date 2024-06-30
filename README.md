@@ -18,15 +18,19 @@ An async Python client for Sendou.ink
 - [x] Get Tournament Info
   - [x] Get Tournament Teams
   - [X] Get Tournament Brackets
-    - [x] Get Tournament Match Info (*by ID not linked to bracket*)
+- [x] Get Tournament Match Info (*by ID not linked to bracket*)
 
 ## Usage
 ```python
 import sendou
+import asyncio
 
-client = sendou.Client("API_KEY")
-# Get Sendou's user object
-await client.get_user("79237403620945920")
+async def run():
+    client = sendou.Client("API_KEY")
+    player = await client.get_user("USER_ID")
+    print(player.name)
+
+asyncio.run(run())
 ```
 
 ## Getting an API Key

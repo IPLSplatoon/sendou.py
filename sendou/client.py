@@ -1,4 +1,5 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
+from datetime import datetime, timedelta
 from aiohttp_client_cache import CacheBackend
 from sendou.models import User, Tournament, Match
 from sendou.requests import RequestsClient
@@ -7,22 +8,25 @@ from sendou.requests import RequestsClient
 class Client:
     """
     Sendou.ink Async API Client
+
+    Attributes:
+            api_key (str): Sendou.ink API Key
+            headers (Dict[str, str]): Custom Headers
+            url (str): Sendou.ink URL (**Default:** https://sendou.ink)
+            expiry (Union[None, int, float, str, datetime, timedelta]): Cache Expiry Time (**Default:** 1800)
+
+    Examples:
+        ```python
+        from sendou import Client
+
+        client = Client("API")
+        ```
     """
     __header: Dict[str, str]
     __client: RequestsClient
 
-    def __init__(self, api_key: str, headers: Dict[str, str] = {}, url: Optional[str] = None):
-        """
-        Init
-
-        Attributes:
-            api_key (str): Sendou.ink API Key
-            headers (Dict[str, str]): Custom Headers
-            url (str): Sendou.ink URL (**Default:** https://sendou.ink)
-
-        Returns:
-            (None): None
-        """
+    def __init__(self, api_key: str, headers: Dict[str, str] = {}, url: Optional[str] = None,
+                 expiry: Union[None, int, float, str, datetime, timedelta] = 1800):
         self.__headers = headers
         if "User-Agent" not in self.__headers:
             self.__headers["User-Agent"] = "sendou.py"
@@ -31,7 +35,7 @@ class Client:
         else:
             self.url = "https://sendou.ink"
         self.__headers["Authorization"] = f"Bearer {api_key}"
-        self.__client = RequestsClient.create(self.url, headers=self.__headers)
+        self.__client = RequestsClient.create(self.url, headers=self.__headers, expiry=expiry)
 
     def set_cache_backend(self, cache: CacheBackend):
         """
@@ -53,7 +57,20 @@ class Client:
             user_id: User ID
 
         Returns:
-            (Optional[User]): User (None if not found
+            (Optional[User]): User (None if not found)
+
+        Examples:
+            ```python
+            import sendou
+            import asyncio
+
+            async def run():
+                client = sendou.Client("API_KEY")
+                player = await client.get_user("USER_ID")
+                print(player.name)
+
+            asyncio.run(run())
+            ```
         """
         path = User.api_route(user_id=user_id)
         data = await self.__client.get_response(path)
@@ -86,4 +103,3 @@ class Client:
         path = Match.api_route(match_id=match_id)
         data = await self.__client.get_response(path)
         return Match(data, self.__client)
-

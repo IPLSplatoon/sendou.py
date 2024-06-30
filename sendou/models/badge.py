@@ -5,7 +5,7 @@ Badge
 
 class Badge:
     """
-    Represents if a Sendou.ink Tournament Badge
+    Represents if a Sendou.ink Badge
 
     Attributes:
         name (str): Badge Name

@@ -46,11 +46,13 @@ class Bracket(BaseModel):
     def api_route(**kwargs) -> str:
         """
         Get the api route for the bracket
-        :param kwargs:
-        :Keyword Arguments:
-            tournament_id: str
-            bracket_index: int
-        :return:
+
+        Args:
+            tournament_id (str): Tournament ID
+            bracket_index (int): Bracket Index
+
+        Returns:
+            (str): API Route
         """
         return f"api/tournament/{kwargs.get('tournament_id')}/brackets/{kwargs.get('bracket_index')}"
 

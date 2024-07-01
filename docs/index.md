@@ -8,6 +8,7 @@ This library is maintained by [Inkling Performance Labs Productions](https://git
 
 ## Dependencies
 - aiohttp
+- [aiohttp-client-cache](https://pypi.org/project/aiohttp-client-cache/)
 - python-dateutil
 
 ## Installation
@@ -15,10 +16,11 @@ This library is maintained by [Inkling Performance Labs Productions](https://git
 
 ## Supported Endpoints
 - [x] Get user
+- [x] Get Calendar Entries
 - [x] Get Tournament Info
   - [x] Get Tournament Teams
   - [X] Get Tournament Brackets
-- [x] Get Tournament Match Info (*by ID not linked to bracket*)
+    - [x] Get Tournament Match Info
 
 ## Usage
 ```python

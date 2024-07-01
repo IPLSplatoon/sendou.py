@@ -4,13 +4,11 @@ Tournament Info Model
 from sendou.models.baseModel import BaseModel
 from sendou.requests import RequestsClient
 from .team import TournamentTeam
-from .bracket import Bracket
+from .bracket import Bracket, BracketType
 
 from datetime import datetime
 from dateutil import parser
 from typing import Any, Dict, List, Optional
-from enum import Enum
-
 
 class TournamentTeamInfo:
     """
@@ -26,22 +24,6 @@ class TournamentTeamInfo:
     def __init__(self, data: Dict[str, Any]):
         self.registered_count = data.get("registeredCount", 0)
         self.checked_in_count = data.get("checkedInCount", 0)
-
-
-class BracketType(Enum):
-    """
-    Bracket Types
-
-    Values:
-        SINGLE_ELIMINATION: Single Elimination Bracket
-        DOUBLE_ELIMINATION: Double Elimination Bracket
-        ROUND_ROBIN: Round Robin Bracket
-        SWISS: Swiss Bracket
-    """
-    SINGLE_ELIMINATION = "single_elimination"
-    DOUBLE_ELIMINATION = "double_elimination"
-    ROUND_ROBIN = "round_robin"
-    SWISS = "swiss"
 
 
 class TournamentBracket(BaseModel):

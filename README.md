@@ -11,6 +11,7 @@ An async Python client for Sendou.ink
 
 ## Dependencies
 - aiohttp
+- [aiohttp-client-cache](https://pypi.org/project/aiohttp-client-cache/)
 - python-dateutil
 
 ## Installation
@@ -22,7 +23,7 @@ An async Python client for Sendou.ink
 - [x] Get Tournament Info
   - [x] Get Tournament Teams
   - [X] Get Tournament Brackets
-- [x] Get Tournament Match Info (*by ID not linked to bracket*)
+    - [x] Get Tournament Match Info
 
 ## Usage
 ```python

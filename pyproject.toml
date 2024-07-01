@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sendou-py"
-version = "1.0.0"
+version = "1.1.0"
 description = "An async Python library for Sendou.ink"
 authors = ["Vincent Lee <vlee@vlee.me.uk>"]
 license = "MIT"
@@ -12,7 +12,7 @@ documentation = "https://sendou.opensource.iplabs.work/"
 keywords = ["splatoon", "sendou.ink"]
 classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Development Status :: 3 - Alpha"
+    "Development Status :: 3 - Beta"
 ]
 
 [tool.poetry.dependencies]

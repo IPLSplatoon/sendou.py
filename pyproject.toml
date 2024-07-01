@@ -12,7 +12,8 @@ documentation = "https://sendou.opensource.iplabs.work/"
 keywords = ["splatoon", "sendou.ink"]
 classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Development Status :: 3 - Beta"
+    "Development Status :: 4 - Beta",
+    "Framework :: AsyncIO"
 ]
 
 [tool.poetry.dependencies]

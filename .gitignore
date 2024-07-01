@@ -202,3 +202,5 @@ atlassian-ide-plugin.xml
 
 .idea/dataSources.xml
 test.py
+
+.ds_store

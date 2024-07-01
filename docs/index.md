@@ -1,10 +1,10 @@
-# sendou.py
-An async Python client for Sendou.ink
+# Sendou.py
 
-### **This package is a currently a work in progress.**
+An async Python library for interacting with the [Sendou.ink](https://sendou.ink) API.
 
-## Maintainers
-- Vincent Lee
+**Not an official library!**
+
+This library is maintained by [Inkling Performance Labs Productions](https://github.com/iplsplatoon)
 
 ## Dependencies
 - aiohttp
@@ -35,4 +35,3 @@ asyncio.run(run())
 
 ## Getting an API Key
 To use this library, you must have an API key. You need to DM Sendou for an API Key currently.
-

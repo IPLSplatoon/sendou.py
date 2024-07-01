@@ -7,4 +7,5 @@ from .user import User, UserWeapon, UserSocials
 from .badge import Badge
 from .plusServer import PlusTiers
 from .stageMapList import Stage, ModeShort, StageWithMode
+from .calendarEntry import CalendarEntry
  

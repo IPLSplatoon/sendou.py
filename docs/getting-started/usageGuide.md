@@ -10,6 +10,15 @@ client = Client("API_KEY")
 player = await client.get_user("USER_ID")
 ```
 
+## [Getting Calendar Entries](../References/client.md#sendou.client.Client.get_calendar)
+
+```python
+from sendou import Client
+client = Client("API_KEY")
+tournament = await client.get_calendar("2023", "5")
+```
+    
+
 ## [Getting Tournament Info](../References/client.md#sendou.client.Client.get_tournament)
 
 ```python

@@ -1,7 +1,10 @@
 # sendou.py
 An async Python client for Sendou.ink
 
-### **This package is a currently a work in progress.**
+[![Documentation Status](https://readthedocs.org/projects/sendoupy/badge/?version=latest)](https://sendoupy.readthedocs.io/latest/?badge=latest)
+
+- [Documentation](https://sendou.opensource.iplabs.work/)
+- [PyPi](https://pypi.org/project/sendou.py/)
 
 ## Maintainers
 - Vincent Lee
@@ -15,6 +18,7 @@ An async Python client for Sendou.ink
 
 ## Supported Endpoints
 - [x] Get user
+- [x] Get Calendar Entries
 - [x] Get Tournament Info
   - [x] Get Tournament Teams
   - [X] Get Tournament Brackets

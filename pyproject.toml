@@ -8,6 +8,7 @@ readme = "README.md"
 packages = [{include = "sendou"}]
 homepage = "https://github.com/IPLSplatoon/sendou.py/"
 repository = "https://github.com/IPLSplatoon/sendou.py/"
+documentation = "https://sendou.opensource.iplabs.work/"
 keywords = ["splatoon", "sendou.ink"]
 classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",

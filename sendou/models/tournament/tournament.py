@@ -1,14 +1,16 @@
 """
 Tournament Info Model
 """
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from dateutil import parser
+
 from sendou.models.baseModel import BaseModel
 from sendou.requests import RequestsClient
+from .bracket import Bracket, BracketType, BracketStanding
 from .team import TournamentTeam
-from .bracket import Bracket, BracketType
 
-from datetime import datetime
-from dateutil import parser
-from typing import Any, Dict, List, Optional
 
 class TournamentTeamInfo:
     """
@@ -66,6 +68,17 @@ class TournamentBracket(BaseModel):
         data = await self._request_client.get_response(path)
         return Bracket(data, self._request_client)
 
+    async def get_standings(self) -> List[BracketStanding]:
+        """
+        Get the bracket standings
+
+        Returns:
+            (List[BracketStanding]): List of Bracket Standings
+        """
+        path = Bracket.api_route(tournament_id=self.__tournament_id, bracket_index=self._index)
+        data = await self._request_client.get_response(path)
+        return [BracketStanding(standing) for standing in data]
+
 
 class Tournament(BaseModel):
     """
@@ -79,6 +92,7 @@ class Tournament(BaseModel):
         start_time (datetime): Start Time
         teams (TournamentTeamInfo): Tournament Team Info
         brackets (List[TournamentBracket]): Tournament Brackets
+        organization_id (Optional[int]): Organization ID
     """
     id: int
     name: str
@@ -87,6 +101,7 @@ class Tournament(BaseModel):
     start_time: datetime
     teams: TournamentTeamInfo
     brackets: List[TournamentBracket]
+    organization_id: Optional[int]
 
     def __init__(self, id: int, data: dict, request_client: RequestsClient):
         """
@@ -106,6 +121,7 @@ class Tournament(BaseModel):
         self.teams = TournamentTeamInfo(data.get("teams", {}))
         self.brackets = [TournamentBracket(bracket, index, self.id, request_client) for index, bracket in
                          enumerate(data.get("brackets", []))]
+        self.organization_id = data.get("organizationId", None)
 
     async def get_teams(self) -> List[TournamentTeam]:
         """

@@ -27,7 +27,10 @@ jobs:
           installer-parallel: true
       - name: Install dependencies
         run: poetry install --no-interaction --no-root --with=dev
+      - name: Get directory
+        run: ls
       - name: Check Schema Hash with upstream
+        working-directory: sendou.py
         run: |
           source .venv/bin/activate
           python scripts/checkUpstreamSchema.py

@@ -28,7 +28,9 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --no-root  --with=dev
       - name: Check Schema Hash with upstream
-        run: python scripts/checkUpstreamSchema.py
+        run: |
+          source .venv/bin/activate
+          python scripts/checkUpstreamSchema.py
       - name: Mint token
         id: mint
         uses: tschm/token-mint-action@v1.0.2

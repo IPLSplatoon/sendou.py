@@ -27,9 +27,15 @@ jobs:
           installer-parallel: true
       - name: Install dependencies
         run: poetry install --no-interaction --no-root  --with=dev
+      - name: Activate virtualenv
+        run: |
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
       - name: Check Schema Hash with upstream
         run: python scripts/checkUpstreamSchema.py
-      - name: Run pytest
+      - name: Install library
+        run: poetry install --no-interaction
+      - name: Run Pytest
         uses: pavelzw/pytest-action@v2
         with:
           verbose: false

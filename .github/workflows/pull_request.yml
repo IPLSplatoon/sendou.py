@@ -26,13 +26,13 @@ jobs:
           virtualenvs-in-project: true
           installer-parallel: true
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root  --with=dev
+        run: poetry install --no-interaction --no-root --with=dev
       - name: Check Schema Hash with upstream
-        run: python scripts/checkUpstreamSchema.py
-      - name: Install library
         run: |
           source .venv/bin/activate
-          poetry install --no-interaction
+          python scripts/checkUpstreamSchema.py
+      - name: Install library
+        run: poetry install --no-interaction
       - name: Run Pytest
         uses: pavelzw/pytest-action@v2
         with:

@@ -1,16 +1,16 @@
-name: Build and upload to pypi
+name: Pull request
+
+# Make sure only the latest push to the PR's source branch runs and cancel any on-going previous run
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 on:
-  release:
-    types:
-      - created
+  pull_request:
 
 jobs:
-  build:
+  Pull-Request:
     runs-on: ubuntu-latest
-    permissions:
-      # This permission is required for trusted publishing.
-      id-token: write
-      contents: read
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -29,9 +29,11 @@ jobs:
         run: poetry install --no-interaction --no-root  --with=dev
       - name: Check Schema Hash with upstream
         run: python scripts/checkUpstreamSchema.py
-      - name: Mint token
-        id: mint
-        uses: tschm/token-mint-action@v1.0.2
-      - name: Publish to PyPI
-        run: |
-          poetry publish --build -u __token__ -p '${{ steps.mint.outputs.api-token }}'
+      - name: Run pytest
+        uses: pavelzw/pytest-action@v2
+        with:
+          verbose: false
+          emoji: false
+          job-summary: true
+          click-to-expand: true
+          report-title: 'Test Report'

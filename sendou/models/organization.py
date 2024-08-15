@@ -37,13 +37,24 @@ class OrganizationMember(BaseModel):
     role: OrganizationRole
     role_display_name: Optional[str]
 
-    def __init__(self, data: dict, request_client: RequestsClient):
+    def __init__(self, data: dict, user_id: int, name: str, discord_id: str, role: OrganizationRole,
+                 role_display_name: Optional[str], request_client: RequestsClient):
         super().__init__(data, request_client)
-        self.user_id = data.get("userId")
-        self.name = data.get("name")
-        self.discord_id = data.get("discordId")
-        self.role = OrganizationRole(data.get("role"))
-        self.role_display_name = data.get("roleDisplayName", None)
+        self.user_id = user_id
+        self.name = name
+        self.discord_id = discord_id
+        self.role = role
+        self.role_display_name = role_display_name
+
+    @classmethod
+    def from_dict(cls, data: dict, request_client: RequestsClient):
+        user_id = data.get("userId")
+        name = data.get("name")
+        discord_id = data.get("discordId")
+        role = OrganizationRole(data.get("role"))
+        role_display_name = data.get("roleDisplayName", None)
+        return cls(data, user_id, name, discord_id, role, role_display_name, request_client)
+
 
     async def get_user(self) -> Optional[User]:
         """
@@ -78,13 +89,39 @@ class Organization(BaseModel):
     social_link_urls: List[str]
     members: List[OrganizationMember]
 
-    def __init__(self, data: dict, request_client: RequestsClient):
+    def __init__(self, data: dict, id: int, name: str, description: Optional[str], url: str, logo_url: Optional[str],
+                 social_link_urls: List[str], members: List[OrganizationMember], request_client: RequestsClient):
         super().__init__(data, request_client)
-        self.id = data.get("id")
-        self.name = data.get("name")
-        self.description = data.get("description", None)
-        self.url = data.get("url")
-        self.logo_url = data.get("logoUrl", None)
-        self.social_link_urls = data.get("socialLinkUrls")
-        self.members = [OrganizationMember(member, request_client) for member in data.get("members")]
+        self.id = id
+        self.name = name
+        self.description = description
+        self.url = url
+        self.logo_url = logo_url
+        self.social_link_urls = social_link_urls
+        self.members = members
+
+    @classmethod
+    def from_dict(cls, data: dict, request_client: RequestsClient):
+        id = data.get("id")
+        name = data.get("name")
+        description = data.get("description", None)
+        url = data.get("url")
+        logo_url = data.get("logoUrl", None)
+        social_link_urls = data.get("socialLinkUrls")
+        members = [OrganizationMember.from_dict(member, request_client) for member in data.get("members")]
+        return cls(data, id, name, description, url, logo_url, social_link_urls, members, request_client)
+
+    @staticmethod
+    def api_route(**kwargs) -> str:
+
+        """
+        Get the API route for organizations
+
+        Kwargs:
+            org_id: Organization ID
+
+        Returns:
+            (str): API route
+        """
+        return f"/api/org/{kwargs.get('org_id')}"
 

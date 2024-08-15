@@ -10,6 +10,7 @@ from sendou.models.baseModel import BaseModel
 from sendou.requests import RequestsClient
 from .bracket import Bracket, BracketType, BracketStanding
 from .team import TournamentTeam
+from sendou.models.organization import Organization
 
 
 class TournamentTeamInfo:
@@ -133,6 +134,19 @@ class Tournament(BaseModel):
         path = TournamentTeam.api_route(tournament_id=self.id)
         data = await self._request_client.get_response(path)
         return [TournamentTeam(team, self._request_client) for team in data]
+
+    async def get_organization(self) -> Optional[Organization]:
+        """
+        Get the organization for the tournament
+
+        Returns:
+            (Optional[Organization]): Organization (None if not found)
+        """
+        if self.organization_id is None:
+            return None
+        path = Organization.api_route(organization_id=self.organization_id)
+        data = await self._request_client.get_response(path=path)
+        return Organization.from_dict(data, self._request_client)
 
     @staticmethod
     def api_route(**kwargs) -> str:

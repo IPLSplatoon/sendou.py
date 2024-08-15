@@ -131,4 +131,4 @@ class Client:
         """
         path = Organization.api_route(organization_id=organization_id)
         data = await self.__client.get_response(path)
-        return Organization(data, self.__client)
+        return Organization.from_dict(data, self.__client)

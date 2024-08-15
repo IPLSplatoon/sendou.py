@@ -8,7 +8,7 @@ import asyncio
 
 
 async def main():
-    with open("../pyproject.toml", "r") as f:
+    with open("./pyproject.toml", "r") as f:
         toml_data = toml.load(f)
         schema_commit = toml_data["tool"]["sendou-py"]["source"]["schema_commit"]
         schema_path = toml_data["tool"]["sendou-py"]["source"]["schema_path"]

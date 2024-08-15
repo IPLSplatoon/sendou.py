@@ -11,6 +11,8 @@ on:
 jobs:
   Pull-Request:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -33,11 +35,18 @@ jobs:
           python scripts/checkUpstreamSchema.py
       - name: Install library
         run: poetry install --no-interaction
-      - name: Run Pytest
-        uses: pavelzw/pytest-action@v2
+      - name: Run tests
+        env:
+          REPORT_OUTPUT: md_report.md
+        shell: bash
+        run: |
+          source .venv/bin/activate
+          echo "REPORT_FILE=${REPORT_OUTPUT}" >> "$GITHUB_ENV"
+          pytest -v --md-report --md-report-flavor gfm --md-report-exclude-outcomes passed skipped xpassed --md-report-output "$REPORT_OUTPUT"
+      - name: Render the report to the PR when tests fail
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: failure()
         with:
-          verbose: false
-          emoji: false
-          job-summary: true
-          click-to-expand: true
-          report-title: 'Test Report'
+          header: test-report
+          recreate: true
+          path: ${{ env.REPORT_FILE }}

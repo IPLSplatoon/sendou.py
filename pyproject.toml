@@ -39,3 +39,4 @@ testpaths = ["tests"]
 pytest = "^8.3.2"
 asyncio = "^3.4.3"
 toml = "^0.10.2"
+pytest-md-report = "^0.6.2"

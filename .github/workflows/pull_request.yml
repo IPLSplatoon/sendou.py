@@ -50,13 +50,3 @@ jobs:
           header: test-report
           recreate: true
           path: ${{ env.REPORT_FILE }}
-      - name: Output reports to the job summary
-        shell: bash
-        run: |
-          if [ -f "$REPORT_FILE" ]; then
-            echo "<details><summary>Test Report</summary>" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "</details>" >> $GITHUB_STEP_SUMMARY
-          fi

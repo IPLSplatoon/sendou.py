@@ -76,9 +76,9 @@ class TournamentBracket(BaseModel):
         Returns:
             (List[BracketStanding]): List of Bracket Standings
         """
-        path = Bracket.api_route(tournament_id=self.__tournament_id, bracket_index=self._index)
+        path = BracketStanding.api_route(tournament_id=self.__tournament_id, bracket_index=self._index)
         data = await self._request_client.get_response(path)
-        return [BracketStanding(standing) for standing in data]
+        return [BracketStanding(standing) for standing in data["standings"]]
 
 
 class Tournament(BaseModel):

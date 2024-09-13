@@ -15,7 +15,7 @@ def test_organization_model():
                 "userId": 1,
                 "name": "Test User",
                 "discordId": "211187184001231608",
-                "role": "member",
+                "role": "MEMBER",
                 "roleDisplayName": "display_name"
             }
         ]
@@ -30,7 +30,7 @@ def test_organization_model():
     assert len(organization.members) == 1
     assert organization.members[0].user_id == 1
     assert organization.members[0].name == "Test User"
-    assert organization.members[0].role == OrganizationRole.MEMBER
+    assert organization.members[0].role == OrganizationRole.member
     assert organization.members[0].discord_id == "211187184001231608"
     assert organization.members[0].role_display_name == "display_name"
 
@@ -39,18 +39,18 @@ def test_organization_member_model():
         "userId": 1,
         "name": "Test User",
         "discordId": "211187184001231608",
-        "role": "member",
+        "role": "MEMBER",
         "roleDisplayName": "display_name"
     }
     member = OrganizationMember.from_dict(data, MagicMock(RequestsClient))
     assert member.user_id == 1
     assert member.name == "Test User"
-    assert member.role == OrganizationRole.MEMBER
+    assert member.role == OrganizationRole.member
     assert member.discord_id == "211187184001231608"
     assert member.role_display_name == "display_name"
 
 def test_organization_role_model():
-    assert OrganizationRole.MEMBER.value == "member"
-    assert OrganizationRole.ADMIN.value == "admin"
-    assert OrganizationRole.ORGANIZER.value == "organizer"
-    assert OrganizationRole.STREAMER.value == "streamer"
+    assert OrganizationRole.member.value == "MEMBER"
+    assert OrganizationRole.admin.value == "ADMIN"
+    assert OrganizationRole.organizer.value == "ORGANIZER"
+    assert OrganizationRole.streamer.value == "STREAMER"

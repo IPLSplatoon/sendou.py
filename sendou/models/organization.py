@@ -14,10 +14,10 @@ class OrganizationRole(Enum):
     """
     Represents a role of member in the organization
     """
-    ADMIN = "admin"
-    MEMBER = "member"
-    ORGANIZER = "organizer"
-    STREAMER = "streamer"
+    admin = "ADMIN"
+    member = "MEMBER"
+    organizer = "ORGANIZER"
+    streamer = "STREAMER"
 
 
 class OrganizationMember(BaseModel):
@@ -123,5 +123,5 @@ class Organization(BaseModel):
         Returns:
             (str): API route
         """
-        return f"/api/org/{kwargs.get('org_id')}"
+        return f"api/org/{kwargs.get('org_id')}"
 

@@ -144,7 +144,7 @@ class Tournament(BaseModel):
         """
         if self.organization_id is None:
             return None
-        path = Organization.api_route(organization_id=self.organization_id)
+        path = Organization.api_route(org_id=self.organization_id)
         data = await self._request_client.get_response(path=path)
         return Organization.from_dict(data, self._request_client)
 

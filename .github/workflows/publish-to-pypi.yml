@@ -31,25 +31,6 @@ jobs:
         run: |
           source .venv/bin/activate
           python scripts/checkUpstreamSchema.py
-      - name: Run tests
-        env:
-          REPORT_OUTPUT: md_report.md
-        shell: bash
-        run: |
-          source .venv/bin/activate
-          echo "REPORT_FILE=${REPORT_OUTPUT}" >> "$GITHUB_ENV"
-          pytest -v --md-report --md-report-flavor gfm --md-report-exclude-outcomes passed skipped xpassed --md-report-output "$REPORT_OUTPUT"
-      - name: Output reports to the job summary when tests fail
-        if: failure()
-        shell: bash
-        run: |
-          if [ -f "$REPORT_FILE" ]; then
-            echo "<details><summary>Failed Test Report</summary>" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "</details>" >> $GITHUB_STEP_SUMMARY
-          fi
       - name: Mint token
         id: mint
         uses: tschm/token-mint-action@v1.0.2

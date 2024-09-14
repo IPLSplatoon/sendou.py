@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Union
 from datetime import datetime, timedelta
 from aiohttp_client_cache import CacheBackend
-from sendou.models import User, Tournament, Match, CalendarEntry
+from sendou.models import User, Tournament, Match, CalendarEntry, Organization
 from sendou.requests import RequestsClient
 
 
@@ -118,3 +118,17 @@ class Client:
         path = Match.api_route(match_id=match_id)
         data = await self.__client.get_response(path)
         return Match(data, self.__client)
+
+    async def get_organization(self, organization_id: str) -> Optional[Organization]:
+        """
+        Get Sendou.ink organization
+
+        Attributes:
+            organization_id: Organization ID
+
+        Returns:
+            (Optional[Organization]): Organization (None if not found)
+        """
+        path = Organization.api_route(organization_id=organization_id)
+        data = await self.__client.get_response(path)
+        return Organization.from_dict(data, self.__client)

@@ -1,16 +1,18 @@
-name: Build and upload to pypi
+name: Pull request
+
+# Make sure only the latest push to the PR's source branch runs and cancel any on-going previous run
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 on:
-  release:
-    types:
-      - created
+  pull_request:
 
 jobs:
-  build:
+  Pull-Request:
     runs-on: ubuntu-latest
     permissions:
-      # This permission is required for trusted publishing.
-      id-token: write
-      contents: read
+      pull-requests: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -26,11 +28,13 @@ jobs:
           virtualenvs-in-project: true
           installer-parallel: true
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root  --with=dev,ci
+        run: poetry install --no-interaction --no-root --with=dev,ci
       - name: Check Schema Hash with upstream
         run: |
           source .venv/bin/activate
           python scripts/checkUpstreamSchema.py
+      - name: Install library
+        run: poetry install --no-interaction
       - name: Run tests
         env:
           REPORT_OUTPUT: md_report.md
@@ -39,20 +43,10 @@ jobs:
           source .venv/bin/activate
           echo "REPORT_FILE=${REPORT_OUTPUT}" >> "$GITHUB_ENV"
           pytest -v --md-report --md-report-flavor gfm --md-report-exclude-outcomes passed skipped xpassed --md-report-output "$REPORT_OUTPUT"
-      - name: Output reports to the job summary when tests fail
+      - name: Render the report to the PR when tests fail
+        uses: marocchino/sticky-pull-request-comment@v2
         if: failure()
-        shell: bash
-        run: |
-          if [ -f "$REPORT_FILE" ]; then
-            echo "<details><summary>Failed Test Report</summary>" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "</details>" >> $GITHUB_STEP_SUMMARY
-          fi
-      - name: Mint token
-        id: mint
-        uses: tschm/token-mint-action@v1.0.2
-      - name: Publish to PyPI
-        run: |
-          poetry publish --build -u __token__ -p '${{ steps.mint.outputs.api-token }}'
+        with:
+          header: test-report
+          recreate: true
+          path: ${{ env.REPORT_FILE }}

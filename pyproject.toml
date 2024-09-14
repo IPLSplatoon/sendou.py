@@ -1,11 +1,14 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "sendou-py"
-version = "1.1.0"
+version = "1.2.0"
 description = "An async Python library for Sendou.ink"
-authors = ["Vincent Lee <vlee@vlee.me.uk>"]
+authors = [ "Vincent Lee <vlee@iplabs.ink>",]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "sendou"}]
 homepage = "https://github.com/IPLSplatoon/sendou.py/"
 repository = "https://github.com/IPLSplatoon/sendou.py/"
 documentation = "https://sendou.opensource.iplabs.work/"
@@ -15,14 +18,27 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Framework :: AsyncIO"
 ]
+packages = [{include="sendou"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-asyncio = "^3.4.3"
 python-dateutil = "^2.8.2"
 aiohttp-client-cache = "^0.11.0"
 
+[tool.sendou-py.source]
+schema_commit = "5ad69f941f3844d89153e4ac03184a0482e8df3b"
+schema_path = "app/features/api-public/schema.ts"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+testpaths = ["tests"]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+asyncio = "^3.4.3"
+toml = "^0.10.2"
+
+[tool.poetry.group.ci.dependencies]
+pytest-md-report = "^0.6.2"

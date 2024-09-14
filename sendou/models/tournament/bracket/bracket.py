@@ -234,7 +234,7 @@ class Bracket(BaseModel):
     Sendou.ink Tournament Bracket Info
 
     Attributes:
-        data (Any): Bracket Data
+        data (BracketData): Bracket Data
         meta (BracketMeta): Bracket Metadata
     """
     data: BracketData  # https://github.com/Sendouc/sendou.ink/blob/rewrite/app/features/api-public/schema.ts#L232

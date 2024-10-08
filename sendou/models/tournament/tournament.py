@@ -69,7 +69,7 @@ class TournamentBracket(BaseModel):
         """
         path = Bracket.api_route(tournament_id=self.__tournament_id, bracket_index=self._index)
         data = await self._request_client.get_response(path)
-        if not data.get("stage", []):
+        if not data.get("match", []):
             return
         return Bracket(data, self._request_client)
 

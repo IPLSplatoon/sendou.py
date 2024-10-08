@@ -27,13 +27,13 @@ class StandingStats:
     buchholz_sets: Optional[int]
     buchholz_maps: Optional[int]
 
-    def __init__(self, set_wins: int, set_loses: int, map_wins: int, map_loses: int, points: int, wins_against_tied: int,
+    def __init__(self, set_wins: int, set_losses: int, map_wins: int, map_losses: int, points: int, wins_against_tied: int,
                  buchholz_sets: Optional[int] = None, buchholz_maps: Optional[int] = None):
 
         self.set_wins = set_wins
-        self.set_loses = set_loses
+        self.set_losses = set_losses
         self.map_wins = map_wins
-        self.map_loses = map_loses
+        self.map_losses = map_losses
         self.points = points
         self.wins_against_tied = wins_against_tied
         self.buchholz_maps = buchholz_maps
@@ -52,9 +52,9 @@ class StandingStats:
         """
         return cls(
             set_wins=data.get("setWins", 0),
-            set_loses=data.get("setLoses", 0),
+            set_losses=data.get("setLosses", 0),
             map_wins=data.get("mapWins", 0),
-            map_loses=data.get("mapLoses", 0),
+            map_losses=data.get("mapLosses", 0),
             points=data.get("points", 0),
             wins_against_tied=data.get("winsAgainstTied", 0),
             buchholz_sets=data.get("buchholzSets", None),

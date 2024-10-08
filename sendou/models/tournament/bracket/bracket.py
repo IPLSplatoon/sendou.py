@@ -215,13 +215,19 @@ class BracketMatch(BaseModel):
         self.opponent1 = BracketMatchOpponent(data.get("opponent1", {}))
         if data.get("opponent2", {}):
             self.opponent2 = BracketMatchOpponent(data.get("opponent2", {}))
+        else:
+            self.opponent2 = None
         self.round_id = data.get("round_id", 0)
         self.stage_id = data.get("stage_id", 0)
         self.status = data.get("status", 0)
         if data.get("lastGameFinishedAt", None):
             self.lastGameFinishedAt = datetime.fromtimestamp(data.get("lastGameFinishedAt", 0), tz=timezone.utc)
+        else:
+            self.lastGameFinishedAt = None
         if data.get("createdAt", None):
             self.createdAt = datetime.fromtimestamp(data.get("createdAt", 0), tz=timezone.utc)
+        else:
+            self.createdAt = None
 
     async def get_match(self) -> Optional[Match]:
         """

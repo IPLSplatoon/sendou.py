@@ -73,12 +73,15 @@ class BracketStanding:
     """
     tournament_team_id: int
     placement: int
-    stats: StandingStats
+    stats: Optional[StandingStats]
 
     def __init__(self, data: dict):
         self.tournament_team_id = data.get("tournamentTeamId", 0)
         self.placement = data.get("placement", 0)
-        self.stats = StandingStats.from_dict(data.get("stats", {}))
+        if stats := data.get("stats", {}):
+            self.stats = StandingStats.from_dict(stats)
+        else:
+            self.stats = None
 
     @staticmethod
     def api_route(**kwargs) -> str:

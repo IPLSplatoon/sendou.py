@@ -30,6 +30,37 @@ class BracketMeta:
         self.round_count = data.get("roundCount", None)
 
 
+class BracketSettings:
+    """
+    Bracket Settings
+
+    Attributes:
+
+        size (int): Bracket Size
+        seed_ordering (List[str]): Seed Ordering
+        consolation_final (Optional[bool]): Consolation Final
+        round_robin_mode (Optional[str]): Round Robin Mode
+        group_count (Optional[int]): Group Count
+        grand_final (Optional[str]): Grand Final
+    """
+    _raw: dict
+    size: int  # Size of bracket?
+    seed_ordering: List[str]
+    consolation_final: Optional[bool]
+    round_robin_mode: Optional[str]
+    group_count: Optional[int]
+    grand_final: Optional[str]
+
+    def __init__(self, data: dict):
+        self._raw = data
+        self.size = data.get("size", 0)
+        self.seed_ordering = data.get("seedOrdering", [])
+        self.consolation_final = data.get("consolationFinal", None)
+        self.round_robin_mode = data.get("roundRobinMode", None)
+        self.group_count = data.get("groupCount", None)
+        self.grand_final = data.get("grandFinal", None)
+
+
 class BracketStage:
     """
     Bracket Stage
@@ -46,7 +77,7 @@ class BracketStage:
     id: int
     name: str
     number: int
-    settings: Any
+    settings: BracketSettings
     tournament_id: int
     type: BracketType
     created_at: datetime  # Provided as unix timestamp
@@ -55,7 +86,7 @@ class BracketStage:
         self.id = data.get("id", 0)
         self.name = data.get("name", "")
         self.number = data.get("number", 0)
-        self.settings = data.get("settings", {})
+        self.settings = BracketSettings(data.get("settings", {}))
         self.tournament_id = data.get("tournament_id", 0)
         self.type = BracketType(data.get("type", ""))
         self.created_at = datetime.fromtimestamp(data.get("createdAt", 0), tz=timezone.utc)
@@ -211,19 +242,20 @@ class BracketData(BaseModel):
     Bracket Data
 
     Attributes:
-        stage (BracketStage): Bracket Stage
+        stage (Optional[BracketStage]): Bracket Stage
         group (List[BracketGroup]): Bracket Groups
         round (List[BracketRound]): Bracket Rounds
         match (List[BracketMatch]): Bracket Matches
     """
-    stage: List[BracketStage]
+    stage: Optional[BracketStage]
     group: List[BracketGroup]
     round: List[BracketRound]
     match: List[BracketMatch]
 
     def __init__(self, data: dict, request_client: RequestsClient):
         super().__init__(data, request_client)
-        self.stage = [BracketStage(stage) for stage in data.get("stage", [])]
+        stage = data.get("stage", [])
+        self.stage = BracketStage(stage[0]) if len(stage) > 0 else None
         self.group = [BracketGroup(group) for group in data.get("group", [])]
         self.round = [BracketRound(r) for r in data.get("round", [])]
         self.match = [BracketMatch(match, request_client) for match in data.get("match", [])]

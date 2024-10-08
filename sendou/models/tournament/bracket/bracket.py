@@ -35,7 +35,6 @@ class BracketSettings:
     Bracket Settings
 
     Attributes:
-
         size (int): Bracket Size
         seed_ordering (List[str]): Seed Ordering
         consolation_final (Optional[bool]): Consolation Final

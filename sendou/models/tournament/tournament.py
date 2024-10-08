@@ -58,15 +58,19 @@ class TournamentBracket(BaseModel):
         self._index = index
         self.__tournament_id = tournament_id
 
-    async def get_bracket_data(self) -> Bracket:
+    async def get_bracket_data(self) -> Optional[Bracket]:
         """
-        Get the detailed bracket data
+        Get the detailed bracket data, if bracket has details.
+
+        *Here are cases where Brackets haven't been played so no data exists*
 
         Returns:
-            (Bracket): Bracket Data
+            (Optional[Bracket]): Bracket Data
         """
         path = Bracket.api_route(tournament_id=self.__tournament_id, bracket_index=self._index)
         data = await self._request_client.get_response(path)
+        if not data.get("stage", []):
+            return
         return Bracket(data, self._request_client)
 
     async def get_standings(self) -> List[BracketStanding]:

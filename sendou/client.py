@@ -76,18 +76,18 @@ class Client:
         data = await self.__client.get_response(path)
         return User(data, self.__client)
 
-    async def get_calendar(self, year: str, month: str) -> List[CalendarEntry]:
+    async def get_calendar(self, year: int, week: int) -> List[CalendarEntry]:
         """
         Get Sendou.ink calendar
 
         Attributes:
             year: Year
-            month: Month
+            week: Week of year
 
         Returns:
             (List[CalendarEntry]): Calendar Entries
         """
-        path = CalendarEntry.api_route(year=year, month=month)
+        path = CalendarEntry.api_route(year=year, week=week)
         data = await self.__client.get_response(path)
         return [CalendarEntry(entry, self.__client) for entry in data]
 

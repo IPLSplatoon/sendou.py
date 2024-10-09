@@ -71,7 +71,7 @@ class BracketStage:
         settings (Any): Bracket Stage Settings
         tournament_id (int): Tournament ID
         type (BracketType): Bracket Type
-        created_at (datetime): Created At
+        created_at (Optional[datetime]): Created At
     """
     id: int
     name: str
@@ -79,7 +79,7 @@ class BracketStage:
     settings: BracketSettings
     tournament_id: int
     type: BracketType
-    created_at: datetime  # Provided as unix timestamp
+    created_at: Optional[datetime]  # Provided as unix timestamp
 
     def __init__(self, data: dict):
         self.id = data.get("id", 0)
@@ -88,7 +88,8 @@ class BracketStage:
         self.settings = BracketSettings(data.get("settings", {}))
         self.tournament_id = data.get("tournament_id", 0)
         self.type = BracketType(data.get("type", ""))
-        self.created_at = datetime.fromtimestamp(data.get("createdAt", 0), tz=timezone.utc)
+        if created_at := data.get("createdAt", 0):
+            self.created_at = datetime.fromtimestamp(created_at, tz=timezone.utc)
 
 
 class BracketGroup:
@@ -199,7 +200,7 @@ class BracketMatch(BaseModel):
     id: int
     group_id: int
     number: int
-    opponent1: BracketMatchOpponent
+    opponent1: Optional[BracketMatchOpponent]
     opponent2: Optional[BracketMatchOpponent]
     round_id: int
     stage_id: int
@@ -212,7 +213,10 @@ class BracketMatch(BaseModel):
         self.id = data.get("id", 0)
         self.group_id = data.get("group_id", 0)
         self.number = data.get("number", 0)
-        self.opponent1 = BracketMatchOpponent(data.get("opponent1", {}))
+        if data.get("opponent1", {}):
+            self.opponent1 = BracketMatchOpponent(data.get("opponent1", {}))
+        else:
+            self.opponent1 = None
         if data.get("opponent2", {}):
             self.opponent2 = BracketMatchOpponent(data.get("opponent2", {}))
         else:

@@ -142,14 +142,17 @@ class BracketRound:
     group_id: int
     number: int
     stage_id: int
-    maps: BracketRoundMap
+    maps: Optional[BracketRoundMap]
 
     def __init__(self, data: dict):
         self.id = data.get("id", 0)
         self.group_id = data.get("group_id", 0)
         self.number = data.get("number", 0)
         self.stage_id = data.get("stage_id", 0)
-        self.maps = BracketRoundMap(data.get("maps", {}))
+        if data.get("maps", None):
+            self.maps = BracketRoundMap(data.get("maps", {}))
+        else:
+            self.maps = None
 
 
 class BracketMatchOpponent:

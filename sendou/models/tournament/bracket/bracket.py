@@ -174,6 +174,10 @@ class BracketMatchOpponent:
 
     def __init__(self, data: dict):
         self.id = data.get("id", 0)
+        self.position = None
+        self.score = None
+        self.result = None
+        self.totalPoints = None
         if "position" in data:
             self.position = data.get("position", 0)
         if "score" in data:

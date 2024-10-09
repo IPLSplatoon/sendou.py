@@ -10,18 +10,18 @@ class StandingStats:
 
     Attributes:
         set_wins (int): Set Wins
-        set_loses (int): Set Loses
+        set_losses (int): Set Loses
         map_wins (int): Map Wins
-        map_loses (int): Map Loses
+        map_losses (int): Map Loses
         points (int): Points
         wins_against_tied (int): Wins Against Tied
         buchholz_sets (Optional[int]): Buchholz Sets
         buchholz_maps (Optional[int]): Buchholz Maps
     """
     set_wins: int
-    set_loses: int
+    set_losses: int
     map_wins: int
-    map_loses: int
+    map_losses: int
     points: int
     wins_against_tied: int
     buchholz_sets: Optional[int]

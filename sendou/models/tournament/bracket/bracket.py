@@ -213,7 +213,10 @@ class BracketMatch(BaseModel):
         self.id = data.get("id", 0)
         self.group_id = data.get("group_id", 0)
         self.number = data.get("number", 0)
-        self.opponent1 = BracketMatchOpponent(data.get("opponent1", {}))
+        if data.get("opponent1", {}):
+            self.opponent1 = BracketMatchOpponent(data.get("opponent1", {}))
+        else:
+            self.opponent1 = None
         if data.get("opponent2", {}):
             self.opponent2 = BracketMatchOpponent(data.get("opponent2", {}))
         else:

@@ -34,13 +34,13 @@ class CalendarEntry(BaseModel):
         """
         API Route
         Args:
-            year (str): Year
-            month (str): Month
+            year (int): Year
+            week (int): week
 
         Returns:
             str: API Route
         """
-        return f"api/calendar/{kwargs.get('year')}/{kwargs.get('month')}"
+        return f"api/calendar/{kwargs.get('year')}/{kwargs.get('week')}"
 
     async def get_tournament(self) -> Optional[Tournament]:
         """

@@ -82,6 +82,7 @@ class BracketStage:
     created_at: Optional[datetime]  # Provided as unix timestamp
 
     def __init__(self, data: dict):
+        self.created_at = None
         self.id = data.get("id", 0)
         self.name = data.get("name", "")
         self.number = data.get("number", 0)

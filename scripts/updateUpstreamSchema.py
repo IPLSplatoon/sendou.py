@@ -27,7 +27,7 @@ async def main():
                 exit(0)
             toml_data["tool"]["sendou-py"]["source"]["schema_commit"] = latest_sha
 
-    with open("../pyproject.toml", "w") as f:
+    with open("./pyproject.toml", "w") as f:
         toml.dump(toml_data, f)
 
     print("Updated schema_commit in pyproject.toml ✅")

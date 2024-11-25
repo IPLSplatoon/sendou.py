@@ -107,6 +107,7 @@ class Tournament(BaseModel):
     teams: TournamentTeamInfo
     brackets: List[TournamentBracket]
     organization_id: Optional[int]
+    is_finalised: bool
 
     def __init__(self, id: int, data: dict, request_client: RequestsClient):
         """
@@ -127,6 +128,7 @@ class Tournament(BaseModel):
         self.brackets = [TournamentBracket(bracket, index, self.id, request_client) for index, bracket in
                          enumerate(data.get("brackets", []))]
         self.organization_id = data.get("organizationId", None)
+        self.is_finalised = data.get("isFinalized", False)
 
     async def get_teams(self) -> List[TournamentTeam]:
         """

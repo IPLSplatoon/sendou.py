@@ -98,6 +98,7 @@ class Tournament(BaseModel):
         teams (TournamentTeamInfo): Tournament Team Info
         brackets (List[TournamentBracket]): Tournament Brackets
         organization_id (Optional[int]): Organization ID
+        is_finalised (bool): Is Tournament Finalised
     """
     id: int
     name: str

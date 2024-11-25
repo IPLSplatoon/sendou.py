@@ -17,6 +17,8 @@ class UserSocials:
     Attributes:
         twitch (Optional[str]): Twitch Username
         twitter (Optional[str]): Twitter Username
+        battlefy (Optional[str]): Battlefy Username
+        bsky (Optional[str]): Bsky Username
     """
     twitch: Optional[str]
     twitter: Optional[str]

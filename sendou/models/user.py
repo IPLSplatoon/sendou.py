@@ -20,10 +20,14 @@ class UserSocials:
     """
     twitch: Optional[str]
     twitter: Optional[str]
+    battlefy: Optional[str]
+    bsky: Optional[str]
 
     def __init__(self, data: dict):
         self.twitch = data.get("twitch")
         self.twitter = data.get("twitter")
+        self.battlefy = data.get("battlefy")
+        self.bsky = data.get("bsky")
 
 
 class UserWeapon:

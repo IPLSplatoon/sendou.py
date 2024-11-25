@@ -74,7 +74,7 @@ This script uses the GitHub API to check that the SHA stored in `tool.sendou-py.
 for the upstream schema.
 
 ```bash
-§§
+python3 scripts/checkUpstreamSchema.py
 ```
 
 

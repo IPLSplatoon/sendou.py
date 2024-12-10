@@ -23,6 +23,7 @@ class TeamMember(BaseModel):
         battlefy (Optional[str]): Battlefy ID
         avatar_url (Optional[str]): Avatar URL
         captain (bool): Is Captain
+        in_game_name (Optional[str]): In Game Name
         joined_at (datetime): Joined At
     """
     user_id: int
@@ -31,6 +32,7 @@ class TeamMember(BaseModel):
     battlefy: Optional[str]
     avatar_url: Optional[str]
     captain: bool
+    in_game_name: Optional[str]
     joined_at: datetime
 
     def __init__(self, data: dict, request_client: RequestsClient):
@@ -41,6 +43,7 @@ class TeamMember(BaseModel):
         self.battlefy = data.get("battlefy", None)
         self.avatar_url = data.get("avatarUrl", None)
         self.captain = data.get("captain", False)
+        self.in_game_name = data.get("inGameName", None)
         self.joined_at = parser.isoparse(data.get("joinedAt", ""))
 
     async def get_user(self) -> User:

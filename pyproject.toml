@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "sendou-py"
-version = "1.2.10"
+version = "1.2.11"
 description = "An async Python library for Sendou.ink"
 authors = [ "Vincent Lee <vlee@iplabs.ink>",]
 license = "MIT"
@@ -23,7 +23,7 @@ python-dateutil = "^2.8.2"
 aiohttp-client-cache = "^0.11.0"
 
 [tool.sendou-py.source]
-schema_commit = "6d654baa3094813fa125fef404311c08352676f6"
+schema_commit = "5719fa2676f2430f533df61414afffa6940b7b34"
 schema_path = "app/features/api-public/schema.ts"
 
 [tool.pytest.ini_options]
